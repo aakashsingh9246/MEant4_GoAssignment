@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <body>
+  	<form method="POST" name="myForm" id="myForm">
+  		<input type="text" name="a">
+  		<br><br>
+  		<input type="text" name="b">
+  		<br><br>
+  		<input type="submit">
+  	</form>
+  	<p id="result"></p>
+  </body>
+  <script type="text/javascript">
+
+  	$("#myForm").submit(function(e){
+
+  		var formData = new FormData(document.getElementById('myForm'))
+  		let data = {
+  		A : parseInt(formData.get("a")),
+  		B : parseInt(formData.get("b"))
+  	}	
+  		console.log(data)
+  		fetch('http://localhost:8989/', {
+  			method: 'POST',
+  			headers: {
+    			'Content-Type': 'application/json',
+  			},
+  			body: JSON.stringify(data),
+		}).then(response => {
+			console.log(response)
+			return response.json()
+		}).then(data=>{
+			document.getElementById("result").innerHTML = data.Result
+		}).catch(error=> console.log("Error : ",error))
+		
+  		
+    return false;
+});
+  </script>
+</html>
